@@ -12,11 +12,61 @@
 	<meta name="apple-mobile-web-app-title" content="Hello World">
 	<meta name="msapplication-TileImage" content="images/hello-icon-144.png">
 	<meta name="msapplication-TileColor" content="#FFFFFF">
+<style>
+body { text-align: center;  font: 20px Roboto; }
+#timebox { padding: 15vw 0 10vw 0; background: #533e80; color: white; font-size: 15vw}
+#name {font-size: 3vw; margin-bottom: -15vw;}
+#neno { font-size: 5vw}
+#action { margin-top: -8vw}
+#bstart { height: 6vw; width: 0; border-width: 3vw 0 3vw 5vw; background: transparent;  border-color: transparent transparent transparent white; cursor: pointer; transition: 100ms all ease; margin-top: 5vw; margin-left: 3vw;}
+#bstart.paused { border-style: double; border-width: 0 0 0 5vw;}
+#bstart:hover { border-color: transparent transparent transparent white}
+#blap, #breset { border: 0; font-size: 3vw; background: white; width: 12vw; margin: 0 5vw; padding: 1vw}
+#bbg { background: #ea4961; width: 15vw; height: 15vw; display: inline-block; border-radius: 50%;}
+#lap {padding: 4vw}
+</style>
 </head>
-<body class="fullscreen">
-<div id="center">
-	<div id="date"></div>
-	<div id="time"></div>
-    <div id="made">made by nayan</div>
+	
+<body>
+
+<div id="timebox">
+	<pre id="name">       H           M           S</pre>
+	<span id="time">00 00 00</span>
+	<span id="neno">00</span>
+    </div>
+<div id="action">
+<button id="blap" onClick="laps()">Lap</button>
+<span id="bbg">
+	<button id="bstart" onClick="startStop();playButton();"></button>
+</span>
+<button id="breset" onClick="reset()">Reset</button>
 </div>
+<div id="lap"></div>
+
+<script>
+var nen = 0, sec = 0, min = 0, hur = 0, tap = true;
+function times() {
+	nen++
+    if (nen == 60){ sec += 1; nen = 0}
+    if (sec == 60){ min += 1; sec = 0}
+    if (min == 60){ hur += 1; min = 0}
+    time.innerHTML = n(hur)+' '+n(min)+' '+n(sec);
+    neno.innerHTML = n(nen);
+}
+function start() { s = setInterval(times, 20) }
+function stop() { clearInterval(s) }
+function startStop() { tap ? start() : stop(); tap = !tap}
+function playButton(){ bstart.classList.toggle('paused') }
+function n(n){ return n > 9 ? '' + n : '0' + n}
+function laps() { lap.innerHTML += n(hur)+' : '+n(min)+' : '+n(sec)+' : '+n(nen)+'<br>'}
+function reset() {
+	stop();
+	time.innerHTML = '00 00 00';
+    neno.innerHTML = '00';
+    lap.innerHTML = '';
+}
+</script>
+
+	
+
 <script src="js/main.js"></script></body></html>
